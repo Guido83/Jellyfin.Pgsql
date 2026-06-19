@@ -44,9 +44,12 @@ jobs:
           echo "Computed image tag: $IMAGE_TAG"
 
           # Build full tag list; include 'latest' on release events
-          TAGS="ghcr.io/Guido83/jellyfin.pgsql:${IMAGE_TAG}"
+          # Benutzername in Kleinbuchstaben umwandeln
+          LOWER_USER=${GITHUB_ACTOR,,}
+
+          TAGS="ghcr.io/${LOWER_USER}/jellyfin.pgsql:${IMAGE_TAG}"
           if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
-          TAGS="${TAGS}"$'\n'"ghcr.io/DEIN_USER/jellyfin.pgsql:latest"
+          TAGS="${TAGS}"$'\n'"ghcr.io/${LOWER_USER}/jellyfin.pgsql:latest"
           fi
           # Use a multiline-safe delimiter for the output
           {
